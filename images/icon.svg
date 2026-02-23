@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="100%" style="stop-color:#C0392B"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="url(#bg)"/>
+  <!-- Trumpet bell -->
+  <ellipse cx="88" cy="64" rx="18" ry="22" fill="#FFD93D" stroke="#E8B90A" stroke-width="2"/>
+  <!-- Trumpet body -->
+  <rect x="28" y="56" width="62" height="16" rx="4" fill="#FFD93D" stroke="#E8B90A" stroke-width="2"/>
+  <!-- Trumpet valves -->
+  <rect x="42" y="46" width="8" height="14" rx="3" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
+  <rect x="54" y="44" width="8" height="16" rx="3" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
+  <rect x="66" y="46" width="8" height="14" rx="3" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
+  <!-- Mouthpiece -->
+  <rect x="18" y="58" width="14" height="12" rx="6" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
+  <!-- Sound waves -->
+  <path d="M108 52 Q116 52 116 64 Q116 76 108 76" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <path d="M112 42 Q124 42 124 64 Q124 86 112 86" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  <!-- X mark (failure) -->
+  <g transform="translate(22, 82)">
+    <circle cx="0" cy="0" r="14" fill="#FFFFFF" opacity="0.95"/>
+    <line x1="-6" y1="-6" x2="6" y2="6" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+    <line x1="6" y1="-6" x2="-6" y2="6" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>
