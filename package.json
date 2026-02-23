@@ -3,7 +3,7 @@
   "displayName": "FAAAAH on Fail",
   "description": "Plays the iconic FAAAAH sound whenever a test fails. Because failure should be dramatic. 🎺",
   "version": "0.1.0",
-  "publisher": "codefarmer",
+  "publisher": "Mastersam",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -93,7 +93,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codefarmer/faaaah-on-fail"
+    "url": "https://github.com/Mastersam07/faaah-on-fail"
   },
   "license": "MIT"
 }

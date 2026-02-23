@@ -2,25 +2,35 @@
 
 > *Because test failures should be dramatic.*
 
-A VS Code extension that plays the iconic **FAAAAH** sound whenever your tests fail. Never silently ignore a failing test again.
-
 ![FAAAAH](images/banner.png)
+
+**FAAAAH on Fail** plays an unmistakable sound whenever your tests fail — so you never silently scroll past a broken build again.
 
 ## Features
 
-- 🌍 **Multi-framework support** — works with Flutter, Jest, Vitest, pytest, RSpec, Go, Rust, JUnit, PHPUnit, and more
-- 🔊 **Custom sounds** — swap the default FAAAAH with your own `.wav` or `.mp3` file
+- 🌍 **Multi-framework support** — Jest, Vitest, pytest, RSpec, Flutter, Go, Rust, JUnit, PHPUnit, and 20+ more
+- 🔊 **Custom sounds** — swap the default FAAAAH with your own `.wav` or `.mp3`
 - 🎚️ **Volume control** — from subtle shame to full office broadcast
-- 💬 **Random failure messages** — adds a little comedic commentary to your pain
-- 🖥️ **Cross-platform** — works on macOS, Windows, and Linux
+- 💬 **Random failure messages** — comedic commentary to soften the blow
+- 🖥️ **Cross-platform** — macOS, Windows, and Linux
+- ⚙️ **Extensible** — add your own test commands via settings
 
-## Supported Test Frameworks
+## How It Works
 
-Any test runner that executes in a terminal or task is supported out of the box, including:
+FAAAAH on Fail listens for test failures using two detection layers:
 
-Flutter, Dart, Jest, Vitest, Mocha, pytest, RSpec, Go (`go test`), Rust (`cargo test`), JUnit, Gradle, Maven, PHPUnit, dotnet test, Cypress, Jasmine, Karma, Ava, Bun, Deno, ExUnit, CTest, Maestro, and more.
+1. **Shell Integration** — monitors terminal commands. When a recognized test command (`npm test`, `pytest`, `cargo test`, etc.) exits with a non-zero code, FAAAAH fires.
+2. **Task Exit Codes** — listens for VS Code tasks in the Test group or matching test command patterns.
 
-Need to add your own? Use the `faaaahOnFail.extraTestCommands` setting:
+> **Note:** Tests run exclusively through VS Code's Test Results panel without spawning a terminal may not be detected yet. This is a [VS Code API limitation](https://github.com/microsoft/vscode/issues/107467) — the test observation API is not yet stable. Most test extensions spawn terminals under the hood, so coverage is broad in practice.
+
+## Supported Frameworks
+
+Works out of the box with any test runner that executes in a terminal or task:
+
+Jest | Vitest | Mocha | Jasmine | Karma | Ava | Cypress | Bun | Deno | pytest | tox | nox | RSpec | ExUnit | Flutter | Dart | Go | Rust | JUnit | Gradle | Maven | PHPUnit | dotnet test | CTest | Maestro | *and more...*
+
+Don't see yours? Add it:
 
 ```json
 {
@@ -28,24 +38,13 @@ Need to add your own? Use the `faaaahOnFail.extraTestCommands` setting:
 }
 ```
 
-> **Note:** Tests run exclusively through VS Code's Test Results panel without spawning a terminal may not be detected. This is a VS Code API limitation — the test observation API (`onDidChangeTestResults`) is not yet stable. Most test extensions do spawn terminals under the hood, so coverage is broad in practice.
-
 ## Installation
 
-### From VSIX (local)
+Search for **"FAAAAH on Fail"** in the VS Code Extensions panel, or:
 
-```bash
-npm install
-npm run compile
-
-npx vsce package
-
-code --install-extension faaaah-on-fail-0.1.0.vsix
 ```
-
-### From Marketplace *(coming soon)*
-
-Search for **"FAAAAH on Fail"** in the VS Code Extensions panel.
+ext install Mastersam.faaaah-on-fail
+```
 
 ## Commands
 
@@ -61,16 +60,18 @@ Search for **"FAAAAH on Fail"** in the VS Code Extensions panel.
 |---------|---------|-------------|
 | `faaaahOnFail.enabled` | `true` | Enable/disable the sound |
 | `faaaahOnFail.volume` | `0.7` | Volume (0.1 – 1.0) |
-| `faaaahOnFail.customSoundPath` | `""` | Path to custom sound file |
-| `faaaahOnFail.showNotification` | `true` | Show notification message |
+| `faaaahOnFail.customSoundPath` | `""` | Path to a custom `.wav` or `.mp3` file |
+| `faaaahOnFail.showNotification` | `true` | Show a notification message on failure |
 | `faaaahOnFail.extraTestCommands` | `[]` | Additional commands to treat as test runs |
 
 ## Custom Sounds
-
-Want to use a different sound? Set `faaaahOnFail.customSoundPath` in your settings:
 
 ```json
 {
   "faaaahOnFail.customSoundPath": "/path/to/your/sad-sound.mp3"
 }
 ```
+
+## License
+
+MIT
