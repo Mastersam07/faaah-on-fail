@@ -1,0 +1,99 @@
+{
+  "name": "faaaah-on-fail",
+  "displayName": "FAAAAH on Fail",
+  "description": "Plays the iconic FAAAAH sound whenever a test fails. Because failure should be dramatic. 🎺",
+  "version": "0.1.0",
+  "publisher": "codefarmer",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Testing",
+    "Other"
+  ],
+  "keywords": [
+    "test",
+    "fail",
+    "sound",
+    "faaaah",
+    "sad trombone",
+    "fun"
+  ],
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "faaaahOnFail.enable",
+        "title": "FAAAAH: Enable Sound on Test Failure"
+      },
+      {
+        "command": "faaaahOnFail.disable",
+        "title": "FAAAAH: Disable Sound on Test Failure"
+      },
+      {
+        "command": "faaaahOnFail.testSound",
+        "title": "FAAAAH: Test the Sound 🎺"
+      }
+    ],
+    "configuration": {
+      "title": "FAAAAH on Fail",
+      "properties": {
+        "faaaahOnFail.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable the FAAAAH sound on test failure"
+        },
+        "faaaahOnFail.volume": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0.1,
+          "maximum": 1.0,
+          "description": "Volume of the FAAAAH sound (0.1 - 1.0)"
+        },
+        "faaaahOnFail.extraTestCommands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional commands to treat as test runs, on top of the built-in patterns (e.g. [\"my-custom-runner\"]). Any terminal/task command containing these strings will trigger FAAAAH on failure."
+        },
+        "faaaahOnFail.customSoundPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a custom sound file (.wav/.mp3) to play instead of the default FAAAAH"
+        },
+        "faaaahOnFail.showNotification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a notification alongside the sound"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "generate-sound": "node scripts/generate-sound.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codefarmer/faaaah-on-fail"
+  },
+  "license": "MIT"
+}
