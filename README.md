@@ -16,33 +16,30 @@ A VS Code extension that plays the iconic **FAAAAH** sound whenever your tests f
 
 ## Supported Test Frameworks
 
-| Framework | Detection Method |
-|-----------|-----------------|
-| Flutter / Dart | Terminal + Test Controller |
-| Jest / Vitest | Terminal + Test Controller |
-| pytest | Terminal |
-| RSpec | Terminal |
-| Go (`go test`) | Terminal |
-| Rust (`cargo test`) | Terminal |
-| JUnit / Gradle / Maven | Terminal |
-| PHPUnit | Terminal |
+Any test runner that executes in a terminal or task is supported out of the box, including:
+
+Flutter, Dart, Jest, Vitest, Mocha, pytest, RSpec, Go (`go test`), Rust (`cargo test`), JUnit, Gradle, Maven, PHPUnit, dotnet test, Cypress, Jasmine, Karma, Ava, Bun, Deno, ExUnit, CTest, Maestro, and more.
+
+Need to add your own? Use the `faaaahOnFail.extraTestCommands` setting:
+
+```json
+{
+  "faaaahOnFail.extraTestCommands": ["my-custom-runner"]
+}
+```
+
+> **Note:** Tests run exclusively through VS Code's Test Results panel without spawning a terminal may not be detected. This is a VS Code API limitation — the test observation API (`onDidChangeTestResults`) is not yet stable. Most test extensions do spawn terminals under the hood, so coverage is broad in practice.
 
 ## Installation
 
 ### From VSIX (local)
 
 ```bash
-# 1. Install dependencies & compile
 npm install
 npm run compile
 
-# 2. Generate the FAAAAH sound
-npm run generate-sound
-
-# 3. Package
 npx vsce package
 
-# 4. Install
 code --install-extension faaaah-on-fail-0.1.0.vsix
 ```
 
@@ -66,6 +63,7 @@ Search for **"FAAAAH on Fail"** in the VS Code Extensions panel.
 | `faaaahOnFail.volume` | `0.7` | Volume (0.1 – 1.0) |
 | `faaaahOnFail.customSoundPath` | `""` | Path to custom sound file |
 | `faaaahOnFail.showNotification` | `true` | Show notification message |
+| `faaaahOnFail.extraTestCommands` | `[]` | Additional commands to treat as test runs |
 
 ## Custom Sounds
 
@@ -76,5 +74,3 @@ Want to use a different sound? Set `faaaahOnFail.customSoundPath` in your settin
   "faaaahOnFail.customSoundPath": "/path/to/your/sad-sound.mp3"
 }
 ```
-
-
