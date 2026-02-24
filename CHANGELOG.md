@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0
+
+- Switched built-in sounds from `.mp3` to `.wav` for better cross-platform compatibility
+- Improved Windows audio playback using `System.Media.SoundPlayer`
+- Added `mpg123` to Linux audio player fallback chain
+- Improved Linux fallback: `mpg123` → `aplay` → `paplay` → `ffplay`
+- Fixed async error handling with `execFile` across all platforms
+
 ## 0.2.0
 
 - Added multiple built-in sounds: **FAAAAH**, **Fatality**, and **Joker**
@@ -8,9 +16,8 @@
 
 ## 0.1.0 — Initial Release 🎺
 
-- FAAAAH sound on test failure via VS Code Test Controller API
-- Terminal output watcher for CLI test runners
-- Support for Flutter, Jest, Vitest, pytest, RSpec, Go, Rust, JUnit, PHPUnit
+- Sound on test failure via shell integration and task exit codes
+- Support for Flutter, Jest, Vitest, pytest, RSpec, Go, Rust, JUnit, PHPUnit, and 20+ more
 - Custom sound file support
 - Volume control
 - Random failure messages

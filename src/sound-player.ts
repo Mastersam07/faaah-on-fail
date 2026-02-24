@@ -55,15 +55,15 @@ export class SoundPlayer {
 
   private playLinux(soundFile: string, volume: number): void {
     const players = [
-      { cmd: 'mpg123', args: ['-q', '--scale', String(Math.round(volume * 32768)), soundFile] },
       { cmd: 'aplay', args: [soundFile] },
       { cmd: 'paplay', args: [soundFile] },
+      { cmd: 'mpg123', args: ['-q', '--scale', String(Math.round(volume * 32768)), soundFile] },
       { cmd: 'ffplay', args: ['-nodisp', '-autoexit', '-volume', String(Math.round(volume * 100)), soundFile] },
     ];
 
     const tryNext = (index: number): void => {
       if (index >= players.length) {
-        console.error('[FAAAAH] No audio player found. Install mpg123, aplay, paplay, or ffplay.');
+        console.error('[FAAAAH] No audio player found. Install aplay, paplay, mpg123, or ffplay.');
         return;
       }
       const { cmd, args } = players[index];
