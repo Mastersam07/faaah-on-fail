@@ -9,7 +9,8 @@
 ## Features
 
 - 🌍 **Multi-framework support** — Jest, Vitest, pytest, RSpec, Flutter, Go, Rust, JUnit, PHPUnit, and 20+ more
-- 🔊 **Custom sounds** — swap the default FAAAAH with your own `.wav` or `.mp3`
+- 🎺 **Multiple built-in sounds** — FAAAAH, Fatality, Joker, or random
+- 🔊 **Custom sounds** — swap the defaults with your own `.wav` or `.mp3`
 - 🎚️ **Volume control** — from subtle shame to full office broadcast
 - 💬 **Random failure messages** — comedic commentary to soften the blow
 - 🖥️ **Cross-platform** — macOS, Windows, and Linux
@@ -59,8 +60,9 @@ ext install Mastersam.faaaah-on-fail
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `faaaahOnFail.enabled` | `true` | Enable/disable the sound |
+| `faaaahOnFail.sound` | `"faaaah"` | Built-in sound: `faaaah`, `fatality`, `joker`, or `random` |
 | `faaaahOnFail.volume` | `0.7` | Volume (0.1 – 1.0) |
-| `faaaahOnFail.customSoundPath` | `""` | Path to a custom `.wav` or `.mp3` file |
+| `faaaahOnFail.customSoundPath` | `""` | Path to a custom `.wav` or `.mp3` (overrides built-in) |
 | `faaaahOnFail.showNotification` | `true` | Show a notification message on failure |
 | `faaaahOnFail.extraTestCommands` | `[]` | Additional commands to treat as test runs |
 

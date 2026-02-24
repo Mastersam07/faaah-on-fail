@@ -2,7 +2,7 @@
   "name": "faaaah-on-fail",
   "displayName": "FAAAAH on Fail",
   "description": "Plays the iconic FAAAAH sound whenever a test fails. Because failure should be dramatic. 🎺",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "Mastersam",
   "engines": {
     "vscode": "^1.85.0"
