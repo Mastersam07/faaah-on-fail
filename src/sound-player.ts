@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import * as os from 'os';
 
 const BUILT_IN_SOUNDS = ['faaaah', 'fatality', 'joker'] as const;
@@ -13,7 +13,7 @@ export class SoundPlayer {
   }
 
   private resolve(sound: string): string {
-    return path.join(this.soundDir, `${sound}.mp3`);
+    return path.join(this.soundDir, `${sound}.wav`);
   }
 
   private pickSound(sound: string): string {
@@ -28,34 +28,64 @@ export class SoundPlayer {
     const soundFile = customSoundPath || this.pickSound(sound);
     const platform = os.platform();
 
-    try {
-      switch (platform) {
-        case 'darwin':
-          exec(`afplay "${soundFile}" -v ${volume}`);
-          break;
+    switch (platform) {
+      case 'darwin':
+        this.run('afplay', [soundFile, '-v', String(volume)]);
+        break;
 
-        case 'win32':
-          exec(
-            `powershell -c "(New-Object Media.SoundPlayer '${soundFile}').PlaySync()"`
-          );
-          break;
+      case 'win32':
+        this.playWindows(soundFile, volume);
+        break;
 
-        case 'linux':
-          exec(`which mpg123 && mpg123 -f ${Math.round(volume * 32768)} -q "${soundFile}" || ` +
-               `which paplay && paplay "${soundFile}" || ` +
-               `which aplay && aplay "${soundFile}" || ` +
-               `which ffplay && ffplay -nodisp -autoexit -volume ${Math.round(volume * 100)} "${soundFile}"`);
-          break;
+      case 'linux':
+        this.playLinux(soundFile, volume);
+        break;
 
-        default:
-          console.warn(`[FAAAAH] Unsupported platform: ${platform}`);
-      }
-    } catch (err) {
-      console.error('[FAAAAH] Failed to play sound:', err);
+      default:
+        console.warn(`[FAAAAH] Unsupported platform: ${platform}`);
     }
   }
 
+  private playWindows(soundFile: string, _volume: number): void {
+    this.run('powershell', [
+      '-NoProfile', '-NonInteractive', '-Command',
+      `(New-Object System.Media.SoundPlayer '${soundFile}').PlaySync()`
+    ]);
+  }
+
+  private playLinux(soundFile: string, volume: number): void {
+    const players = [
+      { cmd: 'mpg123', args: ['-q', '--scale', String(Math.round(volume * 32768)), soundFile] },
+      { cmd: 'aplay', args: [soundFile] },
+      { cmd: 'paplay', args: [soundFile] },
+      { cmd: 'ffplay', args: ['-nodisp', '-autoexit', '-volume', String(Math.round(volume * 100)), soundFile] },
+    ];
+
+    const tryNext = (index: number): void => {
+      if (index >= players.length) {
+        console.error('[FAAAAH] No audio player found. Install mpg123, aplay, paplay, or ffplay.');
+        return;
+      }
+      const { cmd, args } = players[index];
+      execFile(cmd, args, (err) => {
+        if (err) {
+          tryNext(index + 1);
+        }
+      });
+    };
+
+    tryNext(0);
+  }
+
+  private run(cmd: string, args: string[]): void {
+    execFile(cmd, args, (err) => {
+      if (err) {
+        console.error(`[FAAAAH] Failed to play sound with ${cmd}:`, err.message);
+      }
+    });
+  }
+
   dispose(): void {
-    // Nothing resource to clean up for now
+    // Nothing to clean up for now
   }
 }

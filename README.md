@@ -4,7 +4,7 @@
 
 ![FAAAAH](images/banner.png)
 
-**FAAAAH on Fail** plays an unmistakable sound whenever your tests fail — so you never silently scroll past a broken build again.
+**FAAAAH on Fail** plays the popular _FAAAA_ sound whenever your tests fail.
 
 ## Features
 
@@ -70,7 +70,7 @@ ext install Mastersam.faaaah-on-fail
 
 ```json
 {
-  "faaaahOnFail.customSoundPath": "/path/to/your/sad-sound.mp3"
+  "faaaahOnFail.customSoundPath": "/path/to/your/sad-sound.wav"
 }
 ```
 
