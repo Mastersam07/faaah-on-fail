@@ -83,6 +83,11 @@
           "default": "",
           "description": "Path to a custom .wav sound file. Overrides the built-in sound selection."
         },
+        "faaaahOnFail.onBuildFailure": {
+          "type": "boolean",
+          "default": false,
+          "description": "Play sound on build/compile failure (tsc, gcc, cargo build, go build, make, webpack, etc.)"
+        },
         "faaaahOnFail.showNotification": {
           "type": "boolean",
           "default": true,

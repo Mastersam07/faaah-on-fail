@@ -1,11 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- **Build failure detection** — optionally play FAAAAH on compile errors (`tsc`, `gcc`, `go build`, `cargo build`, `make`, `webpack`, and more)
+- New `faaaahOnFail.onBuildFailure` setting (default: `false`)
+- Build-specific failure messages
+
 ## 0.3.0
 
 - Switched built-in sounds from `.mp3` to `.wav` for better cross-platform compatibility
 - Improved Windows audio playback using `System.Media.SoundPlayer`
 - Added `mpg123` to Linux audio player fallback chain
-- Improved Linux fallback: `mpg123` → `aplay` → `paplay` → `ffplay`
+- Improved Linux fallback: `aplay` → `paplay` → `mpg123` → `ffplay`
 - Fixed async error handling with `execFile` across all platforms
 
 ## 0.2.0

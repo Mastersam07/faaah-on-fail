@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { SoundPlayer } from './sound-player';
-import { TestFailureDetector } from './test-failure-detector';
+import { TestFailureDetector, FailureKind } from './test-failure-detector';
 
 let soundPlayer: SoundPlayer;
 let detector: TestFailureDetector;
 
-const FAILURE_MESSAGES = [
+const TEST_FAILURE_MESSAGES = [
   'FAAAAH! 🎺 Test failed!',
   'FAAAAH! 💀 Another one bites the dust...',
   'FAAAAH! 🫠 That test didn\'t make it...',
@@ -17,8 +17,20 @@ const FAILURE_MESSAGES = [
   'FAAAAH! 💔 Expectations? Shattered.',
 ];
 
-function getRandomMessage(): string {
-  return FAILURE_MESSAGES[Math.floor(Math.random() * FAILURE_MESSAGES.length)];
+const BUILD_FAILURE_MESSAGES = [
+  'FAAAAH! 🔨 Build failed!',
+  'FAAAAH! 🧱 It didn\'t compile...',
+  'FAAAAH! 💥 Build go boom.',
+  'FAAAAH! 🫠 Syntax error somewhere, good luck.',
+  'FAAAAH! 🪦 RIP that build...',
+  'FAAAAH! 🔥 The compiler is not impressed.',
+  'FAAAAH! 🤡 Semicolons are hard.',
+  'FAAAAH! 💔 Build broken. Again.',
+];
+
+function getRandomMessage(kind: FailureKind): string {
+  const messages = kind === 'build' ? BUILD_FAILURE_MESSAGES : TEST_FAILURE_MESSAGES;
+  return messages[Math.floor(Math.random() * messages.length)];
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -27,10 +39,13 @@ export function activate(context: vscode.ExtensionContext) {
   const soundDir = path.join(context.extensionPath, 'sounds');
   soundPlayer = new SoundPlayer(soundDir);
 
-  detector = new TestFailureDetector(() => {
-    if (isEnabled()) {
-      playFaaaah();
+  detector = new TestFailureDetector((kind) => {
+    if (!isEnabled()) { return; }
+    if (kind === 'build') {
+      const buildEnabled = vscode.workspace.getConfiguration('faaaahOnFail').get<boolean>('onBuildFailure', false);
+      if (!buildEnabled) { return; }
     }
+    playFaaaah(kind);
   });
   detector.activate();
 
@@ -48,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
     }),
 
     vscode.commands.registerCommand('faaaahOnFail.testSound', () => {
-      playFaaaah();
+      playFaaaah('test');
     }),
   );
 
@@ -76,7 +91,7 @@ function isEnabled(): boolean {
   return vscode.workspace.getConfiguration('faaaahOnFail').get<boolean>('enabled', true);
 }
 
-function playFaaaah(): void {
+function playFaaaah(kind: FailureKind): void {
   const config = vscode.workspace.getConfiguration('faaaahOnFail');
   const volume = config.get<number>('volume', 0.7);
   const sound = config.get<string>('sound', 'faaaah');
@@ -86,7 +101,7 @@ function playFaaaah(): void {
   soundPlayer.play(volume, sound as 'faaaah' | 'fatality' | 'joker' | 'random', customPath || undefined);
 
   if (showNotification) {
-    vscode.window.showWarningMessage(getRandomMessage());
+    vscode.window.showWarningMessage(getRandomMessage(kind));
   }
 }
 
