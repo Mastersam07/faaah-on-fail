@@ -79,10 +79,11 @@ function isEnabled(): boolean {
 function playFaaaah(): void {
   const config = vscode.workspace.getConfiguration('faaaahOnFail');
   const volume = config.get<number>('volume', 0.7);
+  const sound = config.get<string>('sound', 'faaaah');
   const customPath = config.get<string>('customSoundPath', '');
   const showNotification = config.get<boolean>('showNotification', true);
 
-  soundPlayer.play(volume, customPath || undefined);
+  soundPlayer.play(volume, sound as 'faaaah' | 'fatality' | 'joker' | 'random', customPath || undefined);
 
   if (showNotification) {
     vscode.window.showWarningMessage(getRandomMessage());

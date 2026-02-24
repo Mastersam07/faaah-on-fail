@@ -2,15 +2,30 @@ import * as path from 'path';
 import { exec } from 'child_process';
 import * as os from 'os';
 
+const BUILT_IN_SOUNDS = ['faaaah', 'fatality', 'joker'] as const;
+type BuiltInSound = typeof BUILT_IN_SOUNDS[number];
+
 export class SoundPlayer {
-  private defaultSound: string;
+  private soundDir: string;
 
   constructor(soundDir: string) {
-    this.defaultSound = path.join(soundDir, 'faaaah.mp3');
+    this.soundDir = soundDir;
   }
 
-  play(volume: number = 0.7, customSoundPath?: string): void {
-    const soundFile = customSoundPath || this.defaultSound;
+  private resolve(sound: string): string {
+    return path.join(this.soundDir, `${sound}.mp3`);
+  }
+
+  private pickSound(sound: string): string {
+    if (sound === 'random') {
+      const pick = BUILT_IN_SOUNDS[Math.floor(Math.random() * BUILT_IN_SOUNDS.length)];
+      return this.resolve(pick);
+    }
+    return this.resolve(sound);
+  }
+
+  play(volume: number = 0.7, sound: BuiltInSound | 'random' = 'faaaah', customSoundPath?: string): void {
+    const soundFile = customSoundPath || this.pickSound(sound);
     const platform = os.platform();
 
     try {

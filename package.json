@@ -66,10 +66,22 @@
           "default": [],
           "description": "Additional commands to treat as test runs, on top of the built-in patterns (e.g. [\"my-custom-runner\"]). Any terminal/task command containing these strings will trigger FAAAAH on failure."
         },
+        "faaaahOnFail.sound": {
+          "type": "string",
+          "default": "faaaah",
+          "enum": ["faaaah", "fatality", "joker", "random"],
+          "enumDescriptions": [
+            "The classic FAAAAH trumpet",
+            "Fatality! Mortal Kombat style",
+            "Why so serious?",
+            "Randomly picks a sound each time"
+          ],
+          "description": "Which built-in sound to play on test failure"
+        },
         "faaaahOnFail.customSoundPath": {
           "type": "string",
           "default": "",
-          "description": "Path to a custom sound file (.wav/.mp3) to play instead of the default FAAAAH"
+          "description": "Path to a custom sound file (.wav/.mp3). Overrides the built-in sound selection."
         },
         "faaaahOnFail.showNotification": {
           "type": "boolean",
