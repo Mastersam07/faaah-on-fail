@@ -1,10 +1,10 @@
 # 🎺 FAAAAH on Fail
 
-> *Because test failures should be dramatic.*
+> *Because failures should be dramatic.*
 
 ![FAAAAH](images/banner.png)
 
-**FAAAAH on Fail** plays the popular _FAAAA_ sound whenever your tests or builds fail.
+**FAAAAH on Fail** plays the popular _FAAAA_ sound whenever your tests, builds, or programs fail.
 
 ## Features
 
@@ -14,14 +14,16 @@
 - 🎚️ **Volume control** — from subtle shame to full office broadcast
 - 💬 **Random failure messages** — comedic commentary to soften the blow
 - 🖥️ **Cross-platform** — macOS, Windows, and Linux
-- 🔨 **Build failure detection** — optionally trigger on compile errors too
-- ⚙️ **Extensible** — add your own test commands via settings
+- 🔨 **Build failure detection** — optionally trigger on compile errors
+- 💥 **Runtime failure detection** — optionally trigger when your app crashes
+- 🌪️ **Any failure mode** — nuclear option: trigger on ANY non-zero exit
+- ⚙️ **Extensible** — add your own test, build, and run commands via settings
 
 ## How It Works
 
 FAAAAH on Fail monitors your terminal and tasks for failures:
 
-1. **Shell Integration** — monitors terminal commands. When a recognized test command (`npm test`, `pytest`, `cargo test`, etc.) or build command (`tsc`, `gcc`, `cargo build`, etc.) exits with a non-zero code, FAAAAH fires.
+1. **Shell Integration** — monitors terminal commands. When a recognized test, build, or run command exits with a non-zero code, FAAAAH fires.
 2. **Task Exit Codes** — listens for VS Code tasks in the Test/Build group or matching command patterns.
 
 > **Note:** Tests run exclusively through VS Code's Test Results panel without spawning a terminal may not be detected yet. This is a [VS Code API limitation](https://github.com/microsoft/vscode/issues/107467) — the test observation API is not yet stable. Most test extensions spawn terminals under the hood, so coverage is broad in practice.
@@ -36,7 +38,9 @@ Don't see yours? Add it:
 
 ```json
 {
-  "faaaahOnFail.extraTestCommands": ["my-custom-runner"]
+  "faaaahOnFail.extraTestCommands": ["my-custom-runner"],
+  "faaaahOnFail.extraBuildCommands": ["my-build-tool"],
+  "faaaahOnFail.extraRunCommands": ["my-server"]
 }
 ```
 
@@ -58,15 +62,32 @@ ext install Mastersam.faaaah-on-fail
 
 ## Settings
 
+### Triggers
+
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `faaaahOnFail.enabled` | `true` | Enable/disable the sound |
+| `faaaahOnFail.enabled` | `true` | Master switch — enable/disable all sounds |
+| `faaaahOnFail.onTestFailure` | `true` | Play sound on test failure |
+| `faaaahOnFail.onBuildFailure` | `false` | Play sound on build/compile failure |
+| `faaaahOnFail.onRuntimeFailure` | `false` | Play sound on runtime failure |
+| `faaaahOnFail.onAnyFailure` | `false` | Play sound on ANY non-zero exit (can be noisy!) |
+
+### Sound
+
+| Setting | Default | Description |
+|---------|---------|-------------|
 | `faaaahOnFail.sound` | `"faaaah"` | Built-in sound: `faaaah`, `fatality`, `joker`, or `random` |
 | `faaaahOnFail.volume` | `0.7` | Volume (0.1 – 1.0) |
 | `faaaahOnFail.customSoundPath` | `""` | Path to a custom `.wav` file (overrides built-in) |
-| `faaaahOnFail.onBuildFailure` | `false` | Play sound on build/compile failure |
 | `faaaahOnFail.showNotification` | `true` | Show a notification message on failure |
+
+### Custom Commands
+
+| Setting | Default | Description |
+|---------|---------|-------------|
 | `faaaahOnFail.extraTestCommands` | `[]` | Additional commands to treat as test runs |
+| `faaaahOnFail.extraBuildCommands` | `[]` | Additional commands to treat as build/compile runs |
+| `faaaahOnFail.extraRunCommands` | `[]` | Additional commands to treat as runtime runs |
 
 ## Custom Sounds
 

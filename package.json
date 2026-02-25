@@ -49,7 +49,27 @@
         "faaaahOnFail.enabled": {
           "type": "boolean",
           "default": true,
-          "description": "Enable/disable the FAAAAH sound on test failure"
+          "description": "Master switch — enable/disable all FAAAAH sounds"
+        },
+        "faaaahOnFail.onTestFailure": {
+          "type": "boolean",
+          "default": true,
+          "description": "Play sound on test failure (jest, pytest, cargo test, go test, etc.)"
+        },
+        "faaaahOnFail.onBuildFailure": {
+          "type": "boolean",
+          "default": false,
+          "description": "Play sound on build/compile failure (tsc, gcc, cargo build, go build, make, webpack, etc.)"
+        },
+        "faaaahOnFail.onRuntimeFailure": {
+          "type": "boolean",
+          "default": false,
+          "description": "Play sound on runtime failure (node, python, go run, cargo run, npm start, etc.)"
+        },
+        "faaaahOnFail.onAnyFailure": {
+          "type": "boolean",
+          "default": false,
+          "description": "Play sound on ANY non-zero terminal exit. Overrides all other trigger settings. Can be noisy!"
         },
         "faaaahOnFail.volume": {
           "type": "number",
@@ -57,14 +77,6 @@
           "minimum": 0.1,
           "maximum": 1.0,
           "description": "Volume of the FAAAAH sound (0.1 - 1.0)"
-        },
-        "faaaahOnFail.extraTestCommands": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": [],
-          "description": "Additional commands to treat as test runs, on top of the built-in patterns (e.g. [\"my-custom-runner\"]). Any terminal/task command containing these strings will trigger FAAAAH on failure."
         },
         "faaaahOnFail.sound": {
           "type": "string",
@@ -76,17 +88,30 @@
             "Why so serious?",
             "Randomly picks a sound each time"
           ],
-          "description": "Which built-in sound to play on test failure"
+          "description": "Which built-in sound to play on failure"
         },
         "faaaahOnFail.customSoundPath": {
           "type": "string",
           "default": "",
           "description": "Path to a custom .wav sound file. Overrides the built-in sound selection."
         },
-        "faaaahOnFail.onBuildFailure": {
-          "type": "boolean",
-          "default": false,
-          "description": "Play sound on build/compile failure (tsc, gcc, cargo build, go build, make, webpack, etc.)"
+        "faaaahOnFail.extraTestCommands": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Additional commands to treat as test runs (e.g. [\"my-test-runner\"])"
+        },
+        "faaaahOnFail.extraBuildCommands": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Additional commands to treat as build/compile runs (e.g. [\"my-build-tool\"])"
+        },
+        "faaaahOnFail.extraRunCommands": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Additional commands to treat as runtime runs (e.g. [\"my-server\"])"
         },
         "faaaahOnFail.showNotification": {
           "type": "boolean",

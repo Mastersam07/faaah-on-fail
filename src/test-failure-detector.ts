@@ -66,7 +66,44 @@ const BUILD_PATTERNS = [
   /\bturbo\s+build\b/i,
 ];
 
-export type FailureKind = 'test' | 'build';
+const RUN_PATTERNS = [
+  /\bnpm\s+start\b/i,
+  /\bnpm\s+run\s+dev\b/i,
+  /\bnpm\s+run\s+serve\b/i,
+  /\byarn\s+start\b/i,
+  /\byarn\s+dev\b/i,
+  /\bpnpm\s+start\b/i,
+  /\bpnpm\s+dev\b/i,
+  /\bnode\b/,
+  /\bnodemon\b/i,
+  /\bts-node\b/i,
+  /\btsx\b/,
+  /\bpython\b/,
+  /\bpython3\b/,
+  /\bruby\b/,
+  /\bjava\s+-/,
+  /\bjava\s+\w/,
+  /\bgo\s+run\b/i,
+  /\bcargo\s+run\b/i,
+  /\bflutter\s+run\b/i,
+  /\bdart\s+run\b/i,
+  /\bdotnet\s+run\b/i,
+  /\bswift\s+run\b/i,
+  /\buvicorn\b/i,
+  /\bgunicorn\b/i,
+  /\bflask\s+run\b/i,
+  /\bdjango.*runserver\b/i,
+  /\brails\s+server\b/i,
+  /\brails\s+s\b/i,
+  /\bphp\s+-S\b/,
+  /\bphp\s+artisan\s+serve\b/i,
+  /\bdeno\s+run\b/i,
+  /\bbun\s+run\b/i,
+  /\bnx\s+serve\b/i,
+  /\bturbo\s+dev\b/i,
+];
+
+export type FailureKind = 'test' | 'build' | 'runtime' | 'any';
 
 const DEBOUNCE_MS = 2000;
 
@@ -86,9 +123,7 @@ export class TestFailureDetector {
           if (e.exitCode !== undefined && e.exitCode !== 0) {
             const cmd = e.execution.commandLine?.value ?? '';
             const kind = this.classifyCommand(cmd);
-            if (kind) {
-              this.trigger(kind);
-            }
+            this.trigger(kind);
           }
         })
       );
@@ -99,9 +134,7 @@ export class TestFailureDetector {
         if (e.exitCode !== undefined && e.exitCode !== 0) {
           const task = e.execution.task;
           const kind = this.classifyTask(task);
-          if (kind) {
-            this.trigger(kind);
-          }
+          this.trigger(kind);
         }
       })
     );
@@ -109,34 +142,57 @@ export class TestFailureDetector {
     // TODO(mastersam): Find alternative on working with test explorer as `onDidChangeTestResults` on the test API is proposal based.
   }
 
-  private getExtraPatterns(): RegExp[] {
-    const extras = vscode.workspace
-      .getConfiguration('faaaahOnFail')
-      .get<string[]>('extraTestCommands', []);
-    return extras.map((ec) => {
+  private toRegexPatterns(commands: string[]): RegExp[] {
+    return commands.map((ec) => {
       const escaped = ec.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       return new RegExp(`\\b${escaped}\\b`, 'i');
     });
   }
 
+  private getExtraTestPatterns(): RegExp[] {
+    const extras = vscode.workspace
+      .getConfiguration('faaaahOnFail')
+      .get<string[]>('extraTestCommands', []);
+    return this.toRegexPatterns(extras);
+  }
+
+  private getExtraBuildPatterns(): RegExp[] {
+    const extras = vscode.workspace
+      .getConfiguration('faaaahOnFail')
+      .get<string[]>('extraBuildCommands', []);
+    return this.toRegexPatterns(extras);
+  }
+
+  private getExtraRunPatterns(): RegExp[] {
+    const extras = vscode.workspace
+      .getConfiguration('faaaahOnFail')
+      .get<string[]>('extraRunCommands', []);
+    return this.toRegexPatterns(extras);
+  }
+
   private isTestCommand(cmd: string): boolean {
-    if (TEST_PATTERNS.some((p) => p.test(cmd))) {
-      return true;
-    }
-    return this.getExtraPatterns().some((p) => p.test(cmd));
+    if (TEST_PATTERNS.some((p) => p.test(cmd))) { return true; }
+    return this.getExtraTestPatterns().some((p) => p.test(cmd));
   }
 
   private isBuildCommand(cmd: string): boolean {
-    return BUILD_PATTERNS.some((p) => p.test(cmd));
+    if (BUILD_PATTERNS.some((p) => p.test(cmd))) { return true; }
+    return this.getExtraBuildPatterns().some((p) => p.test(cmd));
   }
 
-  private classifyCommand(cmd: string): FailureKind | null {
+  private isRunCommand(cmd: string): boolean {
+    if (RUN_PATTERNS.some((p) => p.test(cmd))) { return true; }
+    return this.getExtraRunPatterns().some((p) => p.test(cmd));
+  }
+
+  private classifyCommand(cmd: string): FailureKind {
     if (this.isTestCommand(cmd)) { return 'test'; }
     if (this.isBuildCommand(cmd)) { return 'build'; }
-    return null;
+    if (this.isRunCommand(cmd)) { return 'runtime'; }
+    return 'any';
   }
 
-  private classifyTask(task: vscode.Task): FailureKind | null {
+  private classifyTask(task: vscode.Task): FailureKind {
     if (task.group === vscode.TaskGroup.Test) { return 'test'; }
     if (task.group === vscode.TaskGroup.Build) { return 'build'; }
 

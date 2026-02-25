@@ -3,8 +3,11 @@
 ## Unreleased
 
 - **Build failure detection** — optionally play FAAAAH on compile errors (`tsc`, `gcc`, `go build`, `cargo build`, `make`, `webpack`, and more)
-- New `faaaahOnFail.onBuildFailure` setting (default: `false`)
-- Build-specific failure messages
+- **Runtime failure detection** — optionally play FAAAAH when your app crashes (`node`, `python`, `go run`, `cargo run`, `npm start`, etc.)
+- **Any failure mode** — nuclear option to trigger on ANY non-zero terminal exit
+- New settings: `onTestFailure`, `onBuildFailure`, `onRuntimeFailure`, `onAnyFailure`
+- New settings: `extraBuildCommands`, `extraRunCommands` for user-defined command patterns
+- Context-aware failure messages for test, build, runtime, and generic failures
 
 ## 0.3.0
 

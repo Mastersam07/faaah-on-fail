@@ -28,10 +28,43 @@ const BUILD_FAILURE_MESSAGES = [
   'FAAAAH! 💔 Build broken. Again.',
 ];
 
+const RUNTIME_FAILURE_MESSAGES = [
+  'FAAAAH! 💥 Runtime error!',
+  'FAAAAH! 🫠 Your app just crashed...',
+  'FAAAAH! 🪦 Process exited with tears.',
+  'FAAAAH! 🔥 Unhandled exception. Classic.',
+  'FAAAAH! 🤡 It worked on my machine...',
+  'FAAAAH! 💀 Segfault? In this economy?',
+  'FAAAAH! 😭 Runtime said no.',
+  'FAAAAH! 💔 Stack overflow. The bad kind.',
+];
+
+const ANY_FAILURE_MESSAGES = [
+  'FAAAAH! 🎺 Something failed!',
+  'FAAAAH! 💀 Non-zero exit. Yikes.',
+  'FAAAAH! 🫠 That didn\'t work...',
+  'FAAAAH! 🔥 Error. Just... error.',
+  'FAAAAH! 💔 Exit code says no.',
+];
+
+const MESSAGES: Record<FailureKind, string[]> = {
+  test: TEST_FAILURE_MESSAGES,
+  build: BUILD_FAILURE_MESSAGES,
+  runtime: RUNTIME_FAILURE_MESSAGES,
+  any: ANY_FAILURE_MESSAGES,
+};
+
 function getRandomMessage(kind: FailureKind): string {
-  const messages = kind === 'build' ? BUILD_FAILURE_MESSAGES : TEST_FAILURE_MESSAGES;
+  const messages = MESSAGES[kind];
   return messages[Math.floor(Math.random() * messages.length)];
 }
+
+const SETTING_MAP: Record<FailureKind, string> = {
+  test: 'onTestFailure',
+  build: 'onBuildFailure',
+  runtime: 'onRuntimeFailure',
+  any: 'onAnyFailure',
+};
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('🎺 FAAAAH on Fail is now active!');
@@ -41,11 +74,19 @@ export function activate(context: vscode.ExtensionContext) {
 
   detector = new TestFailureDetector((kind) => {
     if (!isEnabled()) { return; }
-    if (kind === 'build') {
-      const buildEnabled = vscode.workspace.getConfiguration('faaaahOnFail').get<boolean>('onBuildFailure', false);
-      if (!buildEnabled) { return; }
+
+    const config = vscode.workspace.getConfiguration('faaaahOnFail');
+
+    if (config.get<boolean>('onAnyFailure', false)) {
+      playFaaaah(kind);
+      return;
     }
-    playFaaaah(kind);
+
+    const settingKey = SETTING_MAP[kind];
+    const defaultValue = kind === 'test';
+    if (config.get<boolean>(settingKey, defaultValue)) {
+      playFaaaah(kind);
+    }
   });
   detector.activate();
 
