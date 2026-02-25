@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0
+
+- Smoother FAAAAH sound
+- Added `csc` and `dotnet publish` to build failure patterns
+
 ## 0.3.5
 
 - **Build failure detection** — optionally play FAAAAH on compile errors (`tsc`, `gcc`, `go build`, `cargo build`, `make`, `webpack`, and more)
