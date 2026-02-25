@@ -139,6 +139,36 @@ export class TestFailureDetector {
       })
     );
 
+    this.disposables.push(
+      vscode.debug.registerDebugAdapterTrackerFactory('*', {
+        createDebugAdapterTracker: () => ({
+          onDidSendMessage: (message: { type?: string; event?: string; body?: Record<string, unknown> }) => {
+            // Standard DAP exited event (e.g. Node, Go, C++)
+            if (
+              message.type === 'event' &&
+              message.event === 'exited' &&
+              typeof message.body?.exitCode === 'number' &&
+              message.body.exitCode !== 0
+            ) {
+              this.trigger('runtime');
+            }
+
+            // Some debug adapters (e.g. Dart) embed exit code in output text
+            if (
+              message.type === 'event' &&
+              message.event === 'output' &&
+              typeof message.body?.output === 'string'
+            ) {
+              const code = this.parseExitCode(message.body.output as string);
+              if (code !== undefined && code !== 0) {
+                this.trigger('runtime');
+              }
+            }
+          },
+        }),
+      })
+    );
+
     // TODO(mastersam): Find alternative on working with test explorer as `onDidChangeTestResults` on the test API is proposal based.
   }
 
@@ -212,6 +242,24 @@ export class TestFailureDetector {
     }
 
     return name;
+  }
+
+  private parseExitCode(output: string): number | undefined {
+    const patterns = [
+      /[Ee]xited\s*\((\d+)\)/,                   // Dart: "Exited (255)."
+      /exit\s+code[:\s]+(\d+)/i,                  // "exit code: 1", "exit code 1"
+      /[Pp]rocess\s+exited\s+with\s+code\s+(\d+)/,// "Process exited with code 1"
+      /exited\s+with\s+code\s+(\d+)/i,            // "exited with code 1"
+      /returned?\s+exit\s+code\s+(\d+)/i,         // "return exit code 1"
+      /exit\s+status\s+(\d+)/i,                   // "exit status 1"
+    ];
+    for (const p of patterns) {
+      const m = output.match(p);
+      if (m) {
+        return parseInt(m[1], 10);
+      }
+    }
+    return undefined;
   }
 
   private extractCommand(execution: vscode.ShellExecution): string {

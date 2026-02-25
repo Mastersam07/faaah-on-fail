@@ -7,6 +7,7 @@
 - **Any failure mode** — nuclear option to trigger on ANY non-zero terminal exit
 - New settings: `onTestFailure`, `onBuildFailure`, `onRuntimeFailure`, `onAnyFailure`
 - New settings: `extraBuildCommands`, `extraRunCommands` for user-defined command patterns
+- **Debug console support** — detects non-zero exits from debug sessions (F5 / Run and Debug)
 - Context-aware failure messages for test, build, runtime, and generic failures
 
 ## 0.3.0
