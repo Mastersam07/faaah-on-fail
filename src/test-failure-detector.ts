@@ -53,6 +53,8 @@ const BUILD_PATTERNS = [
   /\bmvn\s+compile\b/i,
   /\bmvn\s+package\b/i,
   /\bdotnet\s+build\b/i,
+  /\bdotnet\s+publish\b/i,
+  /\bcsc\b/,
   /\bswiftc\b/,
   /\bswift\s+build\b/i,
   /\bflutter\s+build\b/i,
