@@ -25,7 +25,7 @@ FAAAAH on Fail monitors your terminal, tasks, and debug sessions for failures:
 
 1. **Shell Integration** — monitors terminal commands. When a recognized test, build, or run command exits with a non-zero code, FAAAAH fires.
 2. **Task Exit Codes** — listens for VS Code tasks in the Test/Build group or matching command patterns.
-3. **Debug Console** — intercepts debug sessions (F5 / Run and Debug). When the debuggee exits with a non-zero code, FAAAAH fires.
+3. **Debug Console** — intercepts debug sessions (F5 / Run and Debug). Detects non-zero exits via standard DAP events and output text patterns (e.g. Dart's `Exited (255)`).
 
 > **Note:** Tests run exclusively through VS Code's Test Results panel without spawning a terminal may not be detected yet. This is a [VS Code API limitation](https://github.com/microsoft/vscode/issues/107467) — the test observation API is not yet stable. Most test extensions spawn terminals under the hood, so coverage is broad in practice.
 
