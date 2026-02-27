@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- New extension icon and banner
+
 ## 0.4.0
 
 - Smoother FAAAAH sound

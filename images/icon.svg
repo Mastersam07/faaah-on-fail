@@ -5,25 +5,25 @@
       <stop offset="100%" style="stop-color:#C0392B"/>
     </linearGradient>
   </defs>
-  <!-- Background circle -->
-  <circle cx="64" cy="64" r="60" fill="url(#bg)"/>
-  <!-- Trumpet bell -->
-  <ellipse cx="88" cy="64" rx="18" ry="22" fill="#FFD93D" stroke="#E8B90A" stroke-width="2"/>
-  <!-- Trumpet body -->
-  <rect x="28" y="56" width="62" height="16" rx="4" fill="#FFD93D" stroke="#E8B90A" stroke-width="2"/>
-  <!-- Trumpet valves -->
-  <rect x="42" y="46" width="8" height="14" rx="3" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
-  <rect x="54" y="44" width="8" height="16" rx="3" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
-  <rect x="66" y="46" width="8" height="14" rx="3" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
-  <!-- Mouthpiece -->
-  <rect x="18" y="58" width="14" height="12" rx="6" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
+  <!-- Background -->
+  <rect width="128" height="128" rx="24" fill="url(#bg)"/>
+  <!-- Speaker/horn icon -->
+  <g transform="translate(16, 28)">
+    <!-- Speaker body -->
+    <path d="M0,30 L20,22 L20,50 L0,42 Z" fill="#FFD93D"/>
+    <!-- Speaker cone -->
+    <path d="M20,22 L55,4 L55,68 L20,50 Z" fill="#FFE066"/>
+    <!-- Speaker back plate -->
+    <rect x="-4" y="28" width="6" height="16" rx="2" fill="#E8B90A"/>
+  </g>
   <!-- Sound waves -->
-  <path d="M108 52 Q116 52 116 64 Q116 76 108 76" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M112 42 Q124 42 124 64 Q124 86 112 86" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
-  <!-- X mark (failure) -->
-  <g transform="translate(22, 82)">
-    <circle cx="0" cy="0" r="14" fill="#FFFFFF" opacity="0.95"/>
-    <line x1="-6" y1="-6" x2="6" y2="6" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
-    <line x1="6" y1="-6" x2="-6" y2="6" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M78 36 Q90 36 90 64 Q90 92 78 92" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <path d="M88 26 Q104 26 104 64 Q104 102 88 102" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <path d="M98 18 Q116 18 116 64 Q116 110 98 110" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+  <!-- Red exclamation badge -->
+  <g transform="translate(100, 100)">
+    <circle cx="0" cy="0" r="18" fill="#FFF" opacity="0.95"/>
+    <rect x="-3" y="-10" width="6" height="12" rx="3" fill="#C0392B"/>
+    <circle cx="0" cy="7" r="3" fill="#C0392B"/>
   </g>
 </svg>

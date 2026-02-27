@@ -4,41 +4,37 @@
       <stop offset="0%" style="stop-color:#1a1a2e"/>
       <stop offset="100%" style="stop-color:#16213e"/>
     </linearGradient>
-    <linearGradient id="trumpetGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#FFD93D"/>
-      <stop offset="100%" style="stop-color:#F4C430"/>
-    </linearGradient>
   </defs>
 
   <!-- Background -->
   <rect width="960" height="300" fill="url(#bannerBg)" rx="8"/>
 
-  <!-- Trumpet - left side -->
-  <g transform="translate(60, 100) scale(1.4)">
-    <!-- Bell -->
-    <ellipse cx="140" cy="40" rx="28" ry="35" fill="url(#trumpetGrad)" stroke="#E8B90A" stroke-width="2"/>
-    <!-- Body -->
-    <rect x="20" y="27" width="122" height="26" rx="6" fill="url(#trumpetGrad)" stroke="#E8B90A" stroke-width="2"/>
-    <!-- Valves -->
-    <rect x="50" y="12" width="12" height="20" rx="4" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
-    <rect x="68" y="8" width="12" height="24" rx="4" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
-    <rect x="86" y="12" width="12" height="20" rx="4" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
-    <!-- Mouthpiece -->
-    <rect x="2" y="30" width="22" height="20" rx="10" fill="#FFE066" stroke="#E8B90A" stroke-width="1.5"/>
-    <!-- Sound waves -->
-    <path d="M170 22 Q184 22 184 40 Q184 58 170 58" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
-    <path d="M178 8 Q198 8 198 40 Q198 72 178 72" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
-    <path d="M186 -2 Q212 -2 212 40 Q212 82 186 82" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+  <!-- Speaker/horn - left side (matches new icon) -->
+  <g transform="translate(60, 60) scale(2.4)">
+    <!-- Speaker body -->
+    <path d="M0,30 L20,22 L20,50 L0,42 Z" fill="#FFD93D"/>
+    <!-- Speaker cone -->
+    <path d="M20,22 L55,4 L55,68 L20,50 Z" fill="#FFE066"/>
+    <!-- Speaker back plate -->
+    <rect x="-4" y="28" width="6" height="16" rx="2" fill="#E8B90A"/>
+  </g>
+
+  <!-- Sound waves (next to speaker cone) -->
+  <g transform="translate(60, 60) scale(2.4)">
+    <path d="M60 8 Q70 8 70 36 Q70 64 60 64" fill="none" stroke="#FF6B6B" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <path d="M68 0 Q80 0 80 36 Q80 72 68 72" fill="none" stroke="#FF6B6B" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+    <path d="M76 -6 Q90 -6 90 36 Q90 78 76 78" fill="none" stroke="#FF6B6B" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
   </g>
 
   <!-- Text -->
-  <text x="540" y="135" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="-1">FAAAAH</text>
-  <text x="540" y="175" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400" fill="#FF6B6B" text-anchor="middle">on Fail</text>
-  <text x="540" y="220" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="300" fill="#8899AA" text-anchor="middle">Because failure should be dramatic.</text>
+  <text x="600" y="135" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="-1">FAAAAH</text>
+  <text x="600" y="175" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400" fill="#FF6B6B" text-anchor="middle">on Fail</text>
+  <text x="600" y="220" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="300" fill="#8899AA" text-anchor="middle">Because failure should be dramatic.</text>
 
-  <!-- Subtle red X in bottom right -->
-  <g transform="translate(870, 230)" opacity="0.4">
-    <line x1="-20" y1="-20" x2="20" y2="20" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>
-    <line x1="20" y1="-20" x2="-20" y2="20" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>
+  <!-- Exclamation badge (matching icon) -->
+  <g transform="translate(870, 230)" opacity="0.5">
+    <circle cx="0" cy="0" r="24" fill="#C0392B"/>
+    <rect x="-4" y="-14" width="8" height="16" rx="4" fill="#FFF"/>
+    <circle cx="0" cy="10" r="4" fill="#FFF"/>
   </g>
 </svg>
