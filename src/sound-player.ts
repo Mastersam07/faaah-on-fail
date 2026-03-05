@@ -34,7 +34,7 @@ export class SoundPlayer {
         break;
 
       case 'win32':
-        this.playWindows(soundFile, volume);
+        this.playWindows(soundFile);
         break;
 
       case 'linux':
@@ -46,10 +46,16 @@ export class SoundPlayer {
     }
   }
 
-  private playWindows(soundFile: string, _volume: number): void {
+  private playWindows(soundFile: string): void {
+    // Use -File with a script block to avoid string interpolation injection.
+    // The sound file path is passed as a separate -SoundFile argument,
+    // never interpolated into a command string.
+    const script = `
+param([string]$SoundFile)
+(New-Object System.Media.SoundPlayer $SoundFile).PlaySync()
+`;
     this.run('powershell', [
-      '-NoProfile', '-NonInteractive', '-Command',
-      `(New-Object System.Media.SoundPlayer '${soundFile}').PlaySync()`
+      '-NoProfile', '-NonInteractive', '-Command', script, '-SoundFile', soundFile
     ]);
   }
 

@@ -24,6 +24,7 @@
     "color": "#1a1a2e",
     "theme": "dark"
   },
+  "extensionKind": ["ui"],
   "activationEvents": [
     "onStartupFinished"
   ],
